@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Folder.css';
 
 interface Props {
   name: string;
@@ -10,10 +11,9 @@ export const Folder = ({ name, children }: Props) => {
   return (
     <div key={name}>
       <div onClick={() => setShowChildren(!showChildren)}>
-        {}
-        {name}
+        {showChildren ? '-' : '+'}&nbsp;{name}
       </div>
-      <div>{children}</div>
+      {showChildren && <div className="folderContents">{children}</div>}
     </div>
   );
 };
