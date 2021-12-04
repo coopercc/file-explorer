@@ -26,25 +26,26 @@ const addChildToExistingNode = (
     subParent.children = [];
   }
 
-  subParent.children.push(fileData);
+  subParent.children.push({ ...fileData });
 };
 
 export const generateTreeStructure = (): ModifiedTreeShape => {
+  console.log('Initial line of generate tree');
   const tree: ModifiedTreeShape = [];
   // so we can store where a top level directory is in the tree array
   const addedKeys: { [key: string]: number } = {};
 
-  for (const data of Object.keys(appFiles)) {
-    const fileData = appFiles[data];
+  for (const fileName of Object.keys(appFiles)) {
+    const fileData = appFiles[fileName];
     const path = fileData.fullPath.split('/');
 
     if (path.length === 1) {
-      tree.push(fileData);
+      tree.push({ ...fileData });
       addedKeys[fileData.name] = tree.length - 1;
     } else {
       let currentDir = path[0];
-      let parent = tree[addedKeys[currentDir]];
-      addChildToExistingNode(fileData, parent, path);
+      let topLevelParent = tree[addedKeys[currentDir]];
+      addChildToExistingNode(fileData, topLevelParent, path);
     }
   }
 

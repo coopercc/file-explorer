@@ -8,7 +8,7 @@ interface Props {
 export const Folder = ({ name, children }: Props) => {
   const [showChildren, setShowChildren] = useState(false);
   return (
-    <div>
+    <div key={name}>
       <div onClick={() => setShowChildren(!showChildren)}>
         {}
         {name}

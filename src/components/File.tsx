@@ -5,5 +5,5 @@ interface Props {
 }
 
 export const File = ({ name }: Props) => {
-  return <div>{name}</div>;
+  return <div key={name}>{name}</div>;
 };

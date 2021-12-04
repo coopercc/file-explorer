@@ -2,10 +2,10 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { generateTreeStructure } from './helpers/modelData';
+import { Tree } from './components/Tree';
 
 function App() {
   const tree = generateTreeStructure();
-  console.log(tree);
   return (
     <div className="App">
       <header className="App-header">
@@ -22,6 +22,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <Tree treeData={tree} />
     </div>
   );
 }
