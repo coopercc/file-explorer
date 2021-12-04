@@ -2,25 +2,31 @@ import { appFiles, FileObject } from './appFiles';
 
 export type ModifiedTreeShape = FileObject[];
 
+const getParentOfNode = (path: string[], parent: FileObject) => {
+  let subParent = parent;
+  for (let i = 1; i < path.length - 1; i++) {
+    //find next level parent from parent.children by name
+    // it will exist so not a worry
+    subParent = subParent.children?.find(
+      (child) => child.name === path[i]
+    ) as FileObject;
+  }
+
+  return subParent;
+};
+
 const addChildToExistingNode = (
   fileData: FileObject,
   parent: FileObject,
   path: string[]
 ) => {
-  //need to nest down structure until we get to the file name
-  for (let i = 1; i < path.length - 1; i++) {
-    //find next level parent from parent.children by name
-    // it will exist so not a worry
-    parent = parent.children?.find(
-      (child) => child.name === path[i]
-    ) as FileObject;
+  const subParent = getParentOfNode(path, parent);
+
+  if (!subParent.children) {
+    subParent.children = [];
   }
 
-  if (!parent.children) {
-    parent.children = [];
-  }
-
-  parent.children.push(fileData);
+  subParent.children.push(fileData);
 };
 
 export const generateTreeStructure = (): ModifiedTreeShape => {
