@@ -7,10 +7,11 @@ import { useKeyPress } from '../helpers/useKeyPress';
 
 interface Props {
   files: Files;
-  selected: string;
+  selected: FileObject['fullPath'];
   onSelect: (selected: FileObject['fullPath']) => void;
 }
 
+// Top level component for file tree
 export const FileExplorer = ({ files, selected, onSelect }: Props) => {
   const fileTree = useMemo(() => generateTreeStructure(files), [files]);
   const selectableFiles = useMemo(
