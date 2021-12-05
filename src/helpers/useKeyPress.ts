@@ -9,7 +9,6 @@ export const useKeyPress = function (
   const downHandler = ({ key }: KeyHandler) => {
     if (key === targetKey) {
       setSelected();
-      console.log(targetKey, 'Down');
     }
   };
 

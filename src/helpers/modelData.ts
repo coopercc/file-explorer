@@ -50,3 +50,13 @@ export const generateTreeStructure = (files: Files): ModifiedTreeShape => {
 
   return tree;
 };
+
+// Directories first, then files
+export const sortTree = (a: FileObject, b: FileObject): number => {
+  if (a.type === b.type) {
+    return a.fullPath < b.fullPath ? -1 : 1;
+  } else if (a.type === 'folder') {
+    return -1;
+  }
+  return 1;
+};

@@ -24,7 +24,7 @@ export const FileTree = ({ fileTree, selected, onSelect }: Props) => {
           );
         } else {
           return (
-            <Folder name={item.name}>
+            <Folder directory={item} selected={selected}>
               {item.children ? (
                 <FileTree
                   fileTree={item.children}
