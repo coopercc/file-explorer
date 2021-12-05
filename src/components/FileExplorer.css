@@ -5,3 +5,7 @@
 .folder-contents {
   margin-left: 1rem;
 }
+
+.selected-file {
+  background-color: lightgrey;
+}

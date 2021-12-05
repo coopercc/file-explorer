@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './Folder.css';
 
 interface Props {
   name: string;

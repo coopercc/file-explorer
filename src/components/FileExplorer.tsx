@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { generateTreeStructure } from '../helpers/modelData';
-import './Tree.css';
+import './FileExplorer.css';
 import { FileObject, Files } from '../helpers/appFiles';
 import { FileTree } from './FileTree';
 
