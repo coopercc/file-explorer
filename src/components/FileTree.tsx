@@ -12,7 +12,7 @@ interface Props {
 
 export const FileTree = ({ fileTree, selected, onSelect }: Props) => {
   return (
-    <div>
+    <>
       {fileTree.map((item) => {
         if (item.type === 'file') {
           return (
@@ -36,6 +36,6 @@ export const FileTree = ({ fileTree, selected, onSelect }: Props) => {
           );
         }
       })}
-    </div>
+    </>
   );
 };

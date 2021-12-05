@@ -27,6 +27,8 @@ const addChildToExistingNode = (
   }
 
   subParent.children.push({ ...fileData });
+  // sort so we always have correct order
+  subParent.children.sort((a, b) => (a.fullPath < b.fullPath ? -1 : 1));
 };
 
 export const generateTreeStructure = (files: Files): ModifiedTreeShape => {
@@ -51,12 +53,5 @@ export const generateTreeStructure = (files: Files): ModifiedTreeShape => {
   return tree;
 };
 
-// Directories first, then files
-export const sortTree = (a: FileObject, b: FileObject): number => {
-  if (a.type === b.type) {
-    return a.fullPath < b.fullPath ? -1 : 1;
-  } else if (a.type === 'folder') {
-    return -1;
-  }
-  return 1;
-};
+export const flatten = (tree?: FileObject[]): FileObject[] =>
+  (tree || []).flatMap(({ children, ...rest }) => [rest, ...flatten(children)]);

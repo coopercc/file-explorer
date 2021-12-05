@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { generateTreeStructure, sortTree } from '../helpers/modelData';
+import { flatten, generateTreeStructure } from '../helpers/modelData';
 import './FileExplorer.css';
 import { FileObject, Files } from '../helpers/appFiles';
 import { FileTree } from './FileTree';
@@ -13,28 +13,26 @@ interface Props {
 
 export const FileExplorer = ({ files, selected, onSelect }: Props) => {
   const fileTree = useMemo(() => generateTreeStructure(files), [files]);
-  const fileArray = useMemo(() => {
-    return [...Object.values(files)].sort(sortTree);
-  }, [fileTree, files]);
+  const selectableFiles = useMemo(
+    () => flatten(fileTree).filter((file) => file.type === 'file'),
+    [fileTree]
+  );
 
   const handleKeyPress = (direction: 1 | -1) => {
     //check we have a selected value
     if (selected) {
       // need some sort of array of all the object values
-      console.log('Selected is', selected);
-      const selectedIndex = fileArray.findIndex(
+      const selectedIndex = selectableFiles.findIndex(
         (file) => file.fullPath === selected
       );
-      if (selectedIndex < fileArray.length - 1) {
-        onSelect(fileArray[selectedIndex + direction].fullPath);
+      if (
+        (direction === 1 && selectedIndex < selectableFiles.length - 1) ||
+        (direction === -1 && selectedIndex > 0)
+      ) {
+        onSelect(selectableFiles[selectedIndex + direction].fullPath);
       }
     }
   };
-
-  console.log(
-    'FILE ARR',
-    fileArray.map((a) => a.fullPath)
-  );
 
   useKeyPress('ArrowDown', () => handleKeyPress(1));
   useKeyPress('ArrowUp', () => handleKeyPress(-1));

@@ -6,8 +6,6 @@ import { appFiles } from './helpers/appFiles';
 function App() {
   const [selected, setSelected] = useState('');
 
-  console.log('selected: ', selected);
-
   return (
     <div className="App">
       <FileExplorer
