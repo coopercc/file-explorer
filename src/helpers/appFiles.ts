@@ -7,9 +7,9 @@ export type FileObject = {
   children?: FileObject[];
 };
 
-export type TreeShape = { [key: string]: FileObject };
+export type Files = { [key: string]: FileObject };
 
-export const appFiles: TreeShape = {
+export const appFiles: Files = {
   src: {
     name: 'src',
     type: 'folder',

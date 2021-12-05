@@ -1,27 +1,21 @@
-import React from 'react';
-import { ModifiedTreeShape } from '../helpers/modelData';
-import { Folder } from './Folder';
-import { File } from './File';
+import React, { useMemo } from 'react';
+import { generateTreeStructure } from '../helpers/modelData';
 import './Tree.css';
+import { FileObject, Files } from '../helpers/appFiles';
+import { FileTree } from './FileTree';
 
 interface Props {
-  treeData: ModifiedTreeShape;
+  files: Files;
+  selected: string;
+  onSelect: (selected: FileObject['fullPath']) => void;
 }
 
-export const FileExplorer = ({ treeData }: Props) => {
+export const FileExplorer = ({ files, selected, onSelect }: Props) => {
+  const fileTree = useMemo(() => generateTreeStructure(files), [files]);
+
   return (
     <div className="file-explorer">
-      {treeData.map((item) => {
-        if (item.type === 'file') {
-          return <File name={item.name} />;
-        } else {
-          return (
-            <Folder name={item.name}>
-              {item.children ? <FileExplorer treeData={item.children} /> : null}
-            </Folder>
-          );
-        }
-      })}
+      <FileTree fileTree={fileTree} selected={selected} onSelect={onSelect} />
     </div>
   );
 };

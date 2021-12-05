@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import { generateTreeStructure } from './helpers/modelData';
 import { FileExplorer } from './components/FileExplorer';
+import { appFiles } from './helpers/appFiles';
 
 function App() {
-  const tree = generateTreeStructure();
+  const [selected, setSelected] = useState('');
   return (
     <div className="App">
-      <FileExplorer treeData={tree} />
+      <FileExplorer
+        files={appFiles}
+        selected={selected}
+        onSelect={setSelected}
+      />
     </div>
   );
 }

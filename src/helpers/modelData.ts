@@ -1,4 +1,4 @@
-import { appFiles, FileObject } from './appFiles';
+import { FileObject, Files } from './appFiles';
 
 export type ModifiedTreeShape = FileObject[];
 
@@ -29,14 +29,13 @@ const addChildToExistingNode = (
   subParent.children.push({ ...fileData });
 };
 
-export const generateTreeStructure = (): ModifiedTreeShape => {
-  console.log('Initial line of generate tree');
+export const generateTreeStructure = (files: Files): ModifiedTreeShape => {
   const tree: ModifiedTreeShape = [];
   // so we can store where a top level directory is in the tree array
   const addedKeys: { [key: string]: number } = {};
 
-  for (const fileName of Object.keys(appFiles)) {
-    const fileData = appFiles[fileName];
+  for (const fileName of Object.keys(files)) {
+    const fileData = files[fileName];
     const path = fileData.fullPath.split('/');
 
     if (path.length === 1) {
