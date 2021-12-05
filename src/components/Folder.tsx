@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FileObject } from '../helpers/appFiles';
+import { File } from './File';
 
 interface Props {
   directory: FileObject;
@@ -8,22 +9,23 @@ interface Props {
 }
 
 export const Folder = ({ directory, selected, children }: Props) => {
-  // TODO: Calculate if fullName is the prefix of the selected file
-  const [showChildren, setShowChildren] = useState(
-    selected.startsWith(directory.fullPath)
-  );
+  const childSelected = selected.startsWith(directory.fullPath);
+  const [showChildren, setShowChildren] = useState(childSelected);
 
   useEffect(() => {
-    if (!showChildren && selected.startsWith(directory.fullPath)) {
+    if (!showChildren && childSelected) {
       setShowChildren(true);
     }
-  }, [directory.fullPath, selected, showChildren]);
+  }, [childSelected, showChildren]);
 
   return (
     <div key={directory.name}>
-      <div onClick={() => setShowChildren(!showChildren)}>
-        {showChildren ? '-' : '+'}&nbsp;{directory.name}
-      </div>
+      <File
+        isSelected={selected === directory.fullPath}
+        name={`${showChildren ? '-' : '+'} ${directory.name}`}
+        // Don't allow collapsing of directory if child is selected
+        select={() => !childSelected && setShowChildren(!showChildren)}
+      />
       {showChildren && <div className="folder-contents">{children}</div>}
     </div>
   );
