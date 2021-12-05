@@ -1,5 +1,5 @@
 import React from 'react';
-import { generateTreeStructure, ModifiedTreeShape } from '../helpers/modelData';
+import { ModifiedTreeShape } from '../helpers/modelData';
 import { Folder } from './Folder';
 import { File } from './File';
 import { FileObject } from '../helpers/appFiles';
