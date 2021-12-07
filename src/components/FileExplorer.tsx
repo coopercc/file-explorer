@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { flatten, generateTreeStructure } from '../helpers/modelData';
 import './FileExplorer.css';
 import { FileObject, Files } from '../helpers/appFiles';
-import { FileTree } from './FileTree';
+import { RecursiveFileTree } from './RecursiveFileTree';
 import { useKeyPress } from '../helpers/useKeyPress';
 
 interface Props {
@@ -37,7 +37,11 @@ export const FileExplorer = ({ files, selected, onSelect }: Props) => {
 
   return (
     <div className="file-explorer">
-      <FileTree fileTree={fileTree} selected={selected} onSelect={onSelect} />
+      <RecursiveFileTree
+        fileTree={fileTree}
+        selected={selected}
+        onSelect={onSelect}
+      />
     </div>
   );
 };
