@@ -24,6 +24,7 @@ export const Folder = ({ directory, selected, onSelect, children }: Props) => {
     const newShowChildren = !showChildren;
     setShowChildren(newShowChildren);
     if (!newShowChildren && childSelected) {
+      // if we're closing the folder and a child is selected, the directory is now selected
       onSelect(directory.fullPath);
     }
   };
