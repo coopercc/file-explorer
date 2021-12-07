@@ -3,14 +3,21 @@ import { ModifiedTreeShape } from '../helpers/modelData';
 import { Folder } from './Folder';
 import { File } from './File';
 import { FileObject } from '../helpers/appFiles';
+import { UpdateSelectableFiles } from './types';
 
 interface Props {
   fileTree: ModifiedTreeShape;
   selected: string;
   onSelect: (selected: FileObject['fullPath']) => void;
+  updateSelectableFileTree: UpdateSelectableFiles;
 }
 
-export const FileTree = ({ fileTree, selected, onSelect }: Props) => {
+export const FileTree = ({
+  fileTree,
+  selected,
+  onSelect,
+  updateSelectableFileTree,
+}: Props) => {
   return (
     <>
       {fileTree.map((item) => {
@@ -24,12 +31,18 @@ export const FileTree = ({ fileTree, selected, onSelect }: Props) => {
           );
         } else {
           return (
-            <Folder directory={item} selected={selected}>
+            <Folder
+              updateSelectableFileTree={updateSelectableFileTree}
+              directory={item}
+              selected={selected}
+              onSelect={onSelect}
+            >
               {item.children ? (
                 <FileTree
                   fileTree={item.children}
                   selected={selected}
                   onSelect={onSelect}
+                  updateSelectableFileTree={updateSelectableFileTree}
                 />
               ) : null}
             </Folder>

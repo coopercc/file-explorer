@@ -4,7 +4,7 @@ import { FileExplorer } from './components/FileExplorer';
 import { appFiles } from './helpers/appFiles';
 
 function App() {
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState('src/index.html');
 
   return (
     <div className="App">

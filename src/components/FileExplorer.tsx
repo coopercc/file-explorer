@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { flatten, generateTreeStructure } from '../helpers/modelData';
 import './FileExplorer.css';
 import { FileObject, Files } from '../helpers/appFiles';
@@ -14,10 +14,27 @@ interface Props {
 // Top level component for file tree
 export const FileExplorer = ({ files, selected, onSelect }: Props) => {
   const fileTree = useMemo(() => generateTreeStructure(files), [files]);
+  // used to create the array of selectable files, only has the files/directories
+  // actively being shown.
+  const [selectableFileTree, setSelectableFileTree] = useState(fileTree);
   const selectableFiles = useMemo(
-    () => flatten(fileTree).filter((file) => file.type === 'file'),
-    [fileTree]
+    () => flatten(selectableFileTree),
+    [selectableFileTree]
   );
+
+  const updateSelectableFileTree = (
+    directory: FileObject['fullPath'],
+    isClosed: boolean
+  ) => {
+    // filter out files under directory if shouldClose
+    const newSelectableFileTree = generateTreeStructure(
+      files,
+      directory,
+      isClosed
+    );
+    console.log('NEW TREE', newSelectableFileTree);
+    setSelectableFileTree(newSelectableFileTree);
+  };
 
   const handleKeyPress = (direction: 1 | -1) => {
     //check we have a selected value
@@ -40,7 +57,12 @@ export const FileExplorer = ({ files, selected, onSelect }: Props) => {
 
   return (
     <div className="file-explorer">
-      <FileTree fileTree={fileTree} selected={selected} onSelect={onSelect} />
+      <FileTree
+        fileTree={fileTree}
+        selected={selected}
+        onSelect={onSelect}
+        updateSelectableFileTree={updateSelectableFileTree}
+      />
     </div>
   );
 };

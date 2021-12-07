@@ -31,7 +31,11 @@ const addChildToExistingNode = (
   subParent.children.sort((a, b) => (a.fullPath < b.fullPath ? -1 : 1));
 };
 
-export const generateTreeStructure = (files: Files): ModifiedTreeShape => {
+export const generateTreeStructure = (
+  files: Files,
+  directory?: FileObject['fullPath'],
+  shouldClose?: boolean
+): ModifiedTreeShape => {
   const tree: ModifiedTreeShape = [];
   // so we can store where a top level directory is in the tree array
   const addedKeys: { [key: string]: number } = {};
@@ -44,6 +48,15 @@ export const generateTreeStructure = (files: Files): ModifiedTreeShape => {
       tree.push({ ...fileData });
       addedKeys[fileData.name] = tree.length - 1;
     } else {
+      if (
+        directory &&
+        shouldClose &&
+        directory !== fileData.fullPath &&
+        fileData.fullPath.startsWith(directory)
+      ) {
+        // Don't add sub files of a closed directory
+        continue;
+      }
       let currentDir = path[0];
       let topLevelParent = tree[addedKeys[currentDir]];
       addChildToExistingNode(fileData, topLevelParent, path);
