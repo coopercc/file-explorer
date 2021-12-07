@@ -14,10 +14,7 @@ interface Props {
 // Top level component for file tree
 export const FileExplorer = ({ files, selected, onSelect }: Props) => {
   const fileTree = useMemo(() => generateTreeStructure(files), [files]);
-  const selectableFiles = useMemo(
-    () => flatten(fileTree).filter((file) => file.type === 'file'),
-    [fileTree]
-  );
+  const selectableFiles = useMemo(() => flatten(fileTree), [fileTree]);
 
   const handleKeyPress = (direction: 1 | -1) => {
     //check we have a selected value
